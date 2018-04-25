@@ -1,3 +1,3 @@
-*pyc/git
-*virtual/
+virtual/
+*.pyc
 start.sh
