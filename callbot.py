@@ -19,6 +19,13 @@ TWIMLET = "https://twimlets.com/echo?Twiml=%3CResponse%3E%0A%20%20%3CDial%3E%3CC
 slack_client= SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 twilio_client = TwilioRestClient()
 
+def handle_command(command, channel):
+    '''
+    this  will get the commands directed at the bot and determines if they are valid commands.if
+    they are directed at the bot it acts on the command else it returns back what it needs
+    for the command to be verified
+    '''
+
 if __name__ =="__main__":
     READ_WEBSOCKET_DELAY = 1 # this will give a second delay between reading from firehose
     if slack_client.rtm_connect():
