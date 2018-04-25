@@ -4,7 +4,7 @@ from app import create_app
 
 app = create_app('default')
 
-manager = Manager(app)
+manager = Manager()
 
 manager.add_command('server', Server)
 
