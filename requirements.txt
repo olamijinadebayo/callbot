@@ -3,6 +3,7 @@ chardet==3.0.4
 click==6.7
 Flask==0.12.2
 Flask-Script==2.0.6
+httplib2==0.11.3
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
@@ -14,7 +15,7 @@ pytz==2018.4
 requests==2.18.4
 six==1.11.0
 slackclient==1.2.1
-twilio==6.12.1
+twilio==5.7.0
 urllib3==1.22
 websocket-client==0.47.0
 Werkzeug==0.14.1
