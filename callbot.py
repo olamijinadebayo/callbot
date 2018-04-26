@@ -28,8 +28,32 @@ def handle_command(command,channel):
     response = "not sure what you mean *" +\
                 CALL_COMMAND + "* command with numbers, delimited by spaces."
     if command.startswith(CALL_COMMAND):
-        response = 
+        response = call_command(command[len(CALL_COMMAND):].strip())
     slack_client.api_call("chat.postMessage", channel= channel,text=response,as_user=True)
+
+def call_command(phone_numbers_list_as_string):
+    '''
+    this will validate the phone numbers
+    '''
+    # using uuid module to gemerate random id for the call
+    conference_name = str(uuid4())
+    # split number into spaces
+    phone_numbers = phone_numbers_list_as_string.split(" ")
+    # make sure at least 2 phone numbers are specified
+    if len(phone_numbers)>1:
+        # check that phone numbers are in a valid format
+        are_numbers_valid, response = validate_phone_numbers(phone_numbers)
+        if are_numbers_valid:
+            for phone_number in phone_numbers:
+                twilio_client.calls.create(to=phone_number,
+                                            from_=TWILIO_NUMBER,
+                                            url = TWIMLET.replace('{{name}}',
+                                            conference_name))
+            response = "calling: " + phone_numbers_list_as_string
+    else:
+        response = "the *call* comand requires at least 2 phone numbers"
+    return response
+
 
 def parse_slack_output(slack_rtm_output):
     '''
