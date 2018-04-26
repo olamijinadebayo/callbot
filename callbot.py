@@ -36,7 +36,7 @@ def call_command(phone_numbers_list_as_string):
     this will validate the phone numbers
     '''
     # using uuid module to gemerate random id for the call
-    conference_name = str(uuid4())
+    conference_name = str(uuid.uuid4())
     # split number into spaces
     phone_numbers = phone_numbers_list_as_string.split(" ")
     # make sure at least 2 phone numbers are specified
@@ -54,6 +54,22 @@ def call_command(phone_numbers_list_as_string):
         response = "the *call* comand requires at least 2 phone numbers"
     return response
 
+def validate_phone_numbers(phone_numbers):
+    '''
+        this will make use of the python phonenumber library to make sure each phone number
+        is in a valid format.
+    '''
+    invalid_response =  " is not a valid phone number format. Please " + \
+                       "correct the number and retry. No calls have yet " + \
+                       "been dialed."
+    for phone_number in phone_numbers:
+        try:
+            validate_phone_number = phonenumbers.parse(phone_number)
+            if not phonenumbers.is_valid_number(validate_phone_number):
+                return False, phone_number + invalid_response
+        except:
+            return False, phone_number + invalid_response
+    return True, None
 
 def parse_slack_output(slack_rtm_output):
     '''
@@ -69,7 +85,7 @@ def parse_slack_output(slack_rtm_output):
                 return output['text'].split(AT_BOT)[1].strip(),\
                 output['channel']
 
-    return None,None
+    return None, None
 
 if __name__ =="__main__":
     READ_WEBSOCKET_DELAY = 1 # this will give a second delay between reading from firehose
